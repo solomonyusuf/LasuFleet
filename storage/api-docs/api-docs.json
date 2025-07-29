@@ -1,0 +1,1171 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "LASU Fleet Manager API",
+        "description": "API documentation for the LASU fleet management system.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/admin/users": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "List all users",
+                "operationId": "2979f0297ab881ad0b8b86ee613f077b",
+                "responses": {
+                    "200": {
+                        "description": "List of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 42
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "John Doe"
+                                            },
+                                            "role": {
+                                                "type": "string",
+                                                "example": "owner"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "example": "active"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Create a new user",
+                "operationId": "7601d6cfa9768b3857d0e58d45eb618b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "role",
+                                    "username",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "johndoe"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "owner",
+                                            "manager",
+                                            "auditor",
+                                            "admin"
+                                        ],
+                                        "example": "owner"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 55
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "created"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/users/{userId}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update a user's status",
+                "operationId": "e3de404d508cb3a7cbd2c229660cd7c7",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive"
+                                        ],
+                                        "example": "inactive"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User status updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 42
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "inactive"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete a user",
+                "operationId": "9cd281f1702bfa8471b14f684c4ad35b",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "deleted"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/vehicles": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Create a new vehicle",
+                "operationId": "ffffef66b3510d35075d5128bc45c0b7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "plateNumber",
+                                    "registrationDate",
+                                    "model",
+                                    "color",
+                                    "condition",
+                                    "ownerId"
+                                ],
+                                "properties": {
+                                    "plateNumber": {
+                                        "type": "string",
+                                        "example": "LASU-123"
+                                    },
+                                    "registrationDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-07-29"
+                                    },
+                                    "model": {
+                                        "type": "string",
+                                        "example": "Toyota Camry"
+                                    },
+                                    "color": {
+                                        "type": "string",
+                                        "example": "Black"
+                                    },
+                                    "condition": {
+                                        "type": "string",
+                                        "example": "Good"
+                                    },
+                                    "ownerId": {
+                                        "type": "integer",
+                                        "example": 42
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vehicle created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "created"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auditor/logs": {
+            "get": {
+                "tags": [
+                    "Auditor"
+                ],
+                "summary": "Get audit logs with optional filters",
+                "operationId": "7411baad940a0eb3222de21adbd62f0e",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Type of log",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "fuel",
+                                "maintenance",
+                                "condition"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Start date (YYYY-MM-DD)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "End date (YYYY-MM-DD)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of audit logs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "logId": {
+                                                "type": "integer",
+                                                "example": 9001
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "fuel"
+                                            },
+                                            "requestId": {
+                                                "type": "integer",
+                                                "example": 101
+                                            },
+                                            "changedBy": {
+                                                "type": "string",
+                                                "example": "manager"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2025-07-20T10:00:00Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User login using plate number and password",
+                "operationId": "8dcb70df1020986038d098cc08d05dae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "plateNumber",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "plateNumber": {
+                                        "type": "string",
+                                        "example": "LASU-123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "jwt-token"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 42
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "owner"
+                                                },
+                                                "plateNumber": {
+                                                    "type": "string",
+                                                    "example": "LASU-123"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/upload-file": {
+            "post": {
+                "tags": [
+                    "General"
+                ],
+                "summary": "Upload a file to public/uploads directory",
+                "operationId": "ab81c3b157ddc2dba25890b9d97a0fb7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "File uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "file_url": {
+                                            "type": "string",
+                                            "example": "http://localhost/uploads/myfile.pdf"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/manager/fuel-requests/{requestId}": {
+            "patch": {
+                "tags": [
+                    "Manager"
+                ],
+                "summary": "Approve or reject a fuel request",
+                "operationId": "2b756b6721493b2b85d2191aa43083df",
+                "parameters": [
+                    {
+                        "name": "requestId",
+                        "in": "path",
+                        "description": "Fuel request ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "action"
+                                ],
+                                "properties": {
+                                    "action": {
+                                        "type": "string",
+                                        "enum": [
+                                            "approve",
+                                            "reject"
+                                        ],
+                                        "example": "approve"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 101
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "approved"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/manager/maintenance-requests/{requestId}": {
+            "patch": {
+                "tags": [
+                    "Manager"
+                ],
+                "summary": "Approve or reject a maintenance request",
+                "operationId": "f61211d3acd5ac5e9f7369d1aef25742",
+                "parameters": [
+                    {
+                        "name": "requestId",
+                        "in": "path",
+                        "description": "Maintenance request ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "action"
+                                ],
+                                "properties": {
+                                    "action": {
+                                        "type": "string",
+                                        "enum": [
+                                            "approve",
+                                            "reject"
+                                        ],
+                                        "example": "reject"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 202
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "rejected"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/manager/vehicles": {
+            "get": {
+                "tags": [
+                    "Manager"
+                ],
+                "summary": "List all vehicles",
+                "operationId": "3a2fbba0368bf8d8f598fafbd5159a70",
+                "responses": {
+                    "200": {
+                        "description": "Vehicle list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 5
+                                            },
+                                            "plateNumber": {
+                                                "type": "string",
+                                                "example": "LASU-123"
+                                            },
+                                            "ownerId": {
+                                                "type": "integer",
+                                                "example": 42
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "example": "active"
+                                            },
+                                            "model": {
+                                                "type": "string",
+                                                "example": "Toyota Camry"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/manager/vehicles/{vehicleId}": {
+            "put": {
+                "tags": [
+                    "Manager"
+                ],
+                "summary": "Update a vehicle's status",
+                "operationId": "ef0eb783a0f88692d550868e59321b67",
+                "parameters": [
+                    {
+                        "name": "vehicleId",
+                        "in": "path",
+                        "description": "Vehicle ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive"
+                                        ],
+                                        "example": "inactive"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated vehicle status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "inactive"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/owners/{ownerId}/condition-updates": {
+            "get": {
+                "tags": [
+                    "Owner"
+                ],
+                "summary": "Get condition updates for owner's vehicles",
+                "operationId": "708d61f36e070a67d12eda71c933a47c",
+                "parameters": [
+                    {
+                        "name": "ownerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of updates"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Owner"
+                ],
+                "summary": "Create a condition update",
+                "operationId": "6865521927c4666e1fc90a8a09b4854e",
+                "parameters": [
+                    {
+                        "name": "ownerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "vehicleId",
+                                    "condition"
+                                ],
+                                "properties": {
+                                    "vehicleId": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "condition": {
+                                        "type": "string",
+                                        "example": "Good"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "No visible issues"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/owners/{ownerId}/fuel-requests": {
+            "get": {
+                "tags": [
+                    "Owner"
+                ],
+                "summary": "Get all fuel requests for owner",
+                "operationId": "5ad51aaca2336fe25602c7b81b00c91a",
+                "parameters": [
+                    {
+                        "name": "ownerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List fuel requests"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Owner"
+                ],
+                "summary": "Submit a new fuel request",
+                "operationId": "a000c8f1490781584362e504b82bb603",
+                "parameters": [
+                    {
+                        "name": "ownerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "vehicleId",
+                                    "litres",
+                                    "reason"
+                                ],
+                                "properties": {
+                                    "vehicleId": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "litres": {
+                                        "type": "number",
+                                        "example": 30
+                                    },
+                                    "reason": {
+                                        "type": "string",
+                                        "example": "Weekly operation"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Fuel request created"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/owners/{ownerId}/inspection-files": {
+            "get": {
+                "tags": [
+                    "Owner"
+                ],
+                "summary": "List inspection files for owner",
+                "operationId": "767dd50228778a26fbcdad6c41d94b31",
+                "parameters": [
+                    {
+                        "name": "ownerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of uploaded files"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Owner"
+                ],
+                "summary": "Upload inspection file",
+                "operationId": "fabbb407d62ae8c0f41abd7ef6c3b9d1",
+                "parameters": [
+                    {
+                        "name": "ownerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "vehicleId",
+                                    "file"
+                                ],
+                                "properties": {
+                                    "vehicleId": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "File uploaded"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/owners/{ownerId}/maintenance-requests": {
+            "get": {
+                "tags": [
+                    "Owner"
+                ],
+                "summary": "List maintenance requests for owner",
+                "operationId": "637d050f59e709bcc209fbadc30fa168",
+                "parameters": [
+                    {
+                        "name": "ownerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of maintenance requests"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Owner"
+                ],
+                "summary": "Submit a maintenance request",
+                "operationId": "3b7608f9afd94a034d22336a18c0aeed",
+                "parameters": [
+                    {
+                        "name": "ownerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "vehicleId",
+                                    "issue",
+                                    "priority"
+                                ],
+                                "properties": {
+                                    "vehicleId": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "issue": {
+                                        "type": "string",
+                                        "example": "Brake failure"
+                                    },
+                                    "priority": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high"
+                                        ],
+                                        "example": "high"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Admin",
+            "description": "Admin endpoints for managing vehicles"
+        },
+        {
+            "name": "Auditor",
+            "description": "Auditor log endpoints"
+        },
+        {
+            "name": "Auth",
+            "description": "Authentication Endpoints"
+        },
+        {
+            "name": "Manager",
+            "description": "Manager Vehicle Management"
+        },
+        {
+            "name": "General",
+            "description": "General"
+        },
+        {
+            "name": "Owner",
+            "description": "Owner"
+        }
+    ]
+}
