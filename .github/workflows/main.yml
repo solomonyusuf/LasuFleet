@@ -1,0 +1,26 @@
+name: LasuFleet
+on:
+  push:
+    branches:
+      - main #branch
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the latest code
+        uses: actions/checkout@v2.3.2
+      - uses: actions/setup-node@master
+      - name: Install Dependencies
+        run: composer update --ignore-platform-reqs
+      - name: Generate storage link
+        run: php artisan storage:link
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ftpupload.net
+          username: if0_38997548
+          password: hDgdz3Z5duM
+          server-dir: /brightmind.free.nf/htdocs/
