@@ -23,4 +23,4 @@ jobs:
           server: ftpupload.net
           username: if0_38997548
           password: hDgdz3Z5duM
-          server-dir: /brightmind.free.nf/htdocs/
+          server-dir: /lasu-fleet.free.nf/htdocs/
