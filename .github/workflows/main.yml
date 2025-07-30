@@ -1,4 +1,4 @@
-name: LasuFleet
+name: LasuFleet Deploy
 on:
   push:
     branches:
