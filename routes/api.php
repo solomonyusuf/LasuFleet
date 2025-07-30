@@ -17,12 +17,17 @@ use App\Http\Controllers\FileUploadController;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(
+    [
+       // 'auth:api'
+        ]
+    )
+->group(function () {
 
-Route::post('/upload-file', [FileUploadController::class, 'upload'])->middleware('auth:api');
+Route::post('/upload-file', [FileUploadController::class, 'upload']);
 
     Route::prefix('owners/{ownerId}')
-        ->middleware([CheckRole::class . ':owner'])
+        //->middleware([CheckRole::class . ':owner'])
         ->group(function () {
             Route::get('fuel-requests', [OwnerFuelController::class, 'index']);
             Route::post('fuel-requests', [OwnerFuelController::class, 'store']);
@@ -38,7 +43,7 @@ Route::post('/upload-file', [FileUploadController::class, 'upload'])->middleware
         });
 
     Route::prefix('manager')
-        ->middleware([CheckRole::class . ':manager'])
+      //  ->middleware([CheckRole::class . ':manager'])
         ->group(function () {
             Route::get('vehicles', [ManagerVehicleController::class, 'index']);
             Route::put('vehicles/{vehicleId}', [ManagerVehicleController::class, 'update']);
@@ -48,13 +53,13 @@ Route::post('/upload-file', [FileUploadController::class, 'upload'])->middleware
         });
  
     Route::prefix('auditor')
-        ->middleware([CheckRole::class . ':auditor'])
+        //->middleware([CheckRole::class . ':auditor'])
         ->group(function () {
             Route::get('logs', [AuditLogController::class, 'index']);
         });
 
     Route::prefix('admin')
-        ->middleware([CheckRole::class . ':admin'])
+        //->middleware([CheckRole::class . ':admin'])
         ->group(function () {
             Route::get('users', [AdminUserController::class, 'index']);
             Route::post('users', [AdminUserController::class, 'store']);
