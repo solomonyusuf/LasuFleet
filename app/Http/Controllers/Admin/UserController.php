@@ -54,6 +54,7 @@ class UserController extends Controller
      *         @OA\JsonContent(
      *             required={"name", "role", "username", "password"},
      *             @OA\Property(property="name", type="string", example="John Doe"),
+     *             @OA\Property(property="email", type="string", example="john@gmail.com"),
      *             @OA\Property(property="username", type="string", example="johndoe"),
      *             @OA\Property(property="role", type="string", enum={"owner","manager","auditor","admin"}, example="owner"),
      *             @OA\Property(property="password", type="string", example="secret123")
