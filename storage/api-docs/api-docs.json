@@ -74,6 +74,10 @@
                                         "type": "string",
                                         "example": "John Doe"
                                     },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@gmail.com"
+                                    },
                                     "username": {
                                         "type": "string",
                                         "example": "johndoe"
